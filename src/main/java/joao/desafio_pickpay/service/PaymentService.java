@@ -1,12 +1,10 @@
 package joao.desafio_pickpay.service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
+import java.util.Map;
 
-import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,20 +13,22 @@ import joao.desafio_pickpay.entities.User;
 import joao.desafio_pickpay.entities.dto.PaymentDTO;
 import joao.desafio_pickpay.entities.repository.PaymentRepository;
 
+
+
 @Service
 public class PaymentService {
+	
 	
 	@Autowired
 	private PaymentRepository repository;
 	
-
-	private RestTemplate restTemplate;
-	
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private notificationService noService;
+	
+	@Autowired(required=false)
+	private final RestTemplate resttemplate = new RestTemplate();
 	
 	
 	public Payment transfers(PaymentDTO transferencia) throws Exception {
@@ -37,10 +37,10 @@ public class PaymentService {
 		User recebedor = userService.findById(transferencia.getId2());
 		
 		validacao(pagador,transferencia.getValor());
-		/*boolean Autorizacao = autorizador();
-		if(!Autorizacao) {
+		boolean Autorizacao = autorizador();
+		if(Autorizacao == false) {
 			throw new Exception("Nao autorizada");
-		}*/
+		}
 		
 		Payment trans = new Payment();
 		trans.setUser1(pagador);
@@ -66,7 +66,7 @@ public class PaymentService {
 	}
 	
 	public void validacao(User user, Double valor) throws Exception {				
-		if(user.getTipo().getCode() == 2 ) {
+		if(user.getTipo().getCode() == 1 ) {
 			
 			throw new Exception("Lojistas nao pode transferir");
 		}
@@ -76,16 +76,16 @@ public class PaymentService {
 		}
 	}
 	
-	/*public boolean autorizador() {
-		ResponseEntity<Map>response = restTemplate.getForEntity("https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc"
+	public boolean autorizador() {
+		var response = resttemplate.getForEntity("https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc"
 				,Map.class);
 		
 		if(response.getStatusCode() == HttpStatus.OK) {
-			//String message =  (String) response.getBody().getString(message);
-			return true;
+			String message = (String)response.getBody().get("message");
+			return "Autorizado".equalsIgnoreCase(message);
 		}else {
 			return false;
 		}
-	}*/
+	}
 	
 }
