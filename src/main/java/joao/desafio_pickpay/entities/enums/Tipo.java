@@ -1,8 +1,8 @@
 package joao.desafio_pickpay.entities.enums;
 
 public enum Tipo {
-	COMUM(1),
-	LOJISTA(2);
+	COMUM(0),
+	LOJISTA(1);
 	
 	private int numero;
 

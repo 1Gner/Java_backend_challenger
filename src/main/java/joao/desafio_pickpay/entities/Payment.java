@@ -33,18 +33,16 @@ public class Payment implements Serializable{
 	
 	private Double valor;
 	
-	@ManyToOne
-	@JoinColumn(name = "pay_usl_id")
-	
+
 	private LocalDateTime transactionTime;
 	
 	
 	public Payment() {
 		
 	}
-	
-	
-	public Payment(Long id, User user1,User user2, Double valor,  LocalDateTime transactionTime) {
+
+
+	public Payment(Long id, User user1, User user2, Double valor, LocalDateTime transactionTime) {
 		super();
 		Id = id;
 		this.user1 = user1;
@@ -52,6 +50,8 @@ public class Payment implements Serializable{
 		this.valor = valor;
 		this.transactionTime = transactionTime;
 	}
+
+
 
 
 

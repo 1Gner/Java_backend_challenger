@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import joao.desafio_pickpay.entities.User;
 
 @Repository
-public interface UserComumRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 }

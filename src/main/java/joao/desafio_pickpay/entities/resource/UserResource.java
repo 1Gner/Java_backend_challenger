@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import joao.desafio_pickpay.entities.User;
-import joao.desafio_pickpay.service.UserComumService;
+import joao.desafio_pickpay.service.UserService;
 
 @RestController
 @RequestMapping(value ="/users")
-public class UserComumResource {
+public class UserResource {
 	
 	@Autowired
-	public UserComumService service;
+	public UserService service;
 	
 	
 	@GetMapping

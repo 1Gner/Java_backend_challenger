@@ -16,7 +16,7 @@ import joao.desafio_pickpay.entities.enums.Tipo;
 
 
 @Entity
-@Table(name = "tb_usercomum")
+@Table(name = "tb_user")
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -36,8 +36,6 @@ public class User implements Serializable{
 	
 	private Double money;
 	
-	private Integer condicao;
-	
 	private Integer tipo;
 	
 	
@@ -46,14 +44,13 @@ public class User implements Serializable{
 		
 	}
 
-	public User(Long id, String nome, String cpf, String email, String senha,Double money, Estado estado,Tipo tipo) {
+	public User(Long id, String nome, String cpf, String email, String senha,Double money,Tipo tipo) {
 		Id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.senha = senha;
 		this.money = money;
-		setCondicao(estado);
 		setTipo(tipo);
 	}
 
@@ -114,19 +111,10 @@ public class User implements Serializable{
 		this.money = money;
 	}
 
-	public Estado getCondicao() {
-		return Estado.valueOff(condicao);
-	}
-
-	public void setCondicao(Estado estado) {
-		if(estado != null) {
-			this.condicao = estado.getCode();
-		}
-		
-	}
+	
 	
 	public Tipo getTipo() {
-		return Tipo.valueOff(condicao);
+		return Tipo.valueOff(tipo);
 	}
 
 	public void setTipo(Tipo tipo) {
@@ -135,7 +123,12 @@ public class User implements Serializable{
 		}
 		
 	}
-
+	public void troca_perde(Double valor) {
+		this.money -= valor;
+	}
+	public void troca_ganha(Double valor) {
+		this.money += valor;
+	}
 	
 
 	@Override
